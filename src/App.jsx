@@ -1,4 +1,6 @@
 import React from "react";
+import { motion } from "framer-motion";
+import { fadeUp, fadeIn, stagger, hoverLift } from "./motion";
 
 const Badge = ({ label }) => (
   <span className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/80">
@@ -7,10 +9,13 @@ const Badge = ({ label }) => (
 );
 
 const Card = ({ title, desc }) => (
-  <div className="rounded-2xl border border-white/10 bg-white/5 p-5 shadow-sm">
+  <motion.div
+    className="rounded-2xl border border-white/10 bg-white/5 p-5 shadow-sm"
+    {...hoverLift}
+  >
     <div className="text-base font-semibold text-white">{title}</div>
     <div className="mt-2 text-sm leading-relaxed text-white/70">{desc}</div>
-  </div>
+  </motion.div>
 );
 
 const CodeBlock = ({ children }) => (
@@ -24,15 +29,19 @@ const LinkBtn = ({ href, children, variant = "primary" }) => {
     variant === "primary"
       ? "bg-white text-black hover:bg-white/90"
       : "border border-white/15 bg-white/5 text-white hover:bg-white/10";
+
   return (
-    <a
+    <motion.a
       href={href}
       className={`inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-semibold transition ${cls}`}
+      whileHover={{ scale: 1.04 }}
+      whileTap={{ scale: 0.97 }}
+      transition={{ duration: 0.15 }}
       target="_blank"
       rel="noreferrer"
     >
       {children}
-    </a>
+    </motion.a>
   );
 };
 
@@ -40,7 +49,13 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#0B0D12] text-white">
       {/* background glow */}
-      <div className="pointer-events-none fixed inset-0 -z-10">
+      <motion.div
+  className="absolute left-1/2 top-[-180px] h-[650px] w-[1250px] -translate-x-1/2 rounded-full
+             bg-gradient-to-r from-cyan-500/50 via-purple-500/50 to-pink-500/50 blur-3xl"
+  animate={{ opacity: [0.4, 0.6, 0.4] }}
+  transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+/>
+      <div className="pointer-events-none fixed inset-0 z-10">
         <div className="absolute left-1/2 top-[-120px] h-[420px] w-[900px] -translate-x-1/2 rounded-full bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-pink-500/20 blur-3xl" />
         <div className="absolute right-[-120px] bottom-[-120px] h-[380px] w-[380px] rounded-full bg-cyan-500/10 blur-3xl" />
       </div>
@@ -65,23 +80,40 @@ export default function App() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <LinkBtn href="https://github.com/yourname/agentreplay" variant="secondary">
+          <LinkBtn href="https://github.com/aasim-syed/Repro" variant="secondary">
             GitHub
           </LinkBtn>
           <LinkBtn href="#install">Get started</LinkBtn>
         </div>
       </header>
 
+<motion.section
+  className="mx-auto w-full max-w-6xl px-6 pt-10 pb-8"
+  variants={fadeUp}
+  initial="hidden"
+  animate="visible"
+>
       {/* hero */}
       <section className="mx-auto w-full max-w-6xl px-6 pt-10 pb-8">
         <div className="grid gap-10 md:grid-cols-2 md:items-center">
           <div>
-            <div className="flex flex-wrap gap-2">
-              <Badge label="OSS • MIT" />
-              <Badge label="Local-first" />
-              <Badge label="Framework-agnostic" />
-              <Badge label="v0.2: export/import + strict replay" />
-            </div>
+<motion.div
+  className="flex flex-wrap gap-2"
+  variants={stagger}
+  initial="hidden"
+  animate="visible"
+>
+  {[ 
+    "OSS • MIT",
+    "Local-first",
+    "Framework-agnostic",
+    "v0.2: export/import + strict replay"
+  ].map((label) => (
+    <motion.div key={label} variants={fadeIn}>
+      <Badge label={label} />
+    </motion.div>
+  ))}
+</motion.div>
 
             <h1 className="mt-6 text-4xl font-semibold tracking-tight md:text-5xl">
               Make agent runs reproducible.
@@ -94,7 +126,7 @@ export default function App() {
             </p>
 
             <div className="mt-6 flex flex-wrap gap-3">
-              <LinkBtn href="https://github.com/yourname/agentreplay">View repo</LinkBtn>
+              <LinkBtn href="https://github.com/aasim-syed/Repro">View repo</LinkBtn>
               <LinkBtn href="#demo" variant="secondary">See demo</LinkBtn>
             </div>
 
@@ -134,6 +166,17 @@ agentreplay diff <RUN_A> <RUN_B>`}</CodeBlock>
         </div>
       </section>
 
+</motion.section>
+
+
+<motion.section
+  id="features"
+  className="mx-auto w-full max-w-6xl px-6 py-10"
+  variants={fadeUp}
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: true, margin: "-80px" }}
+>
       {/* demo */}
       <section id="demo" className="mx-auto w-full max-w-6xl px-6 py-10">
         <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
@@ -144,7 +187,7 @@ agentreplay diff <RUN_A> <RUN_B>`}</CodeBlock>
                 Replace this placeholder with a GIF: <span className="font-mono">run → export → import → diff</span>
               </div>
             </div>
-            <LinkBtn href="https://github.com/yourname/agentreplay#demo" variant="secondary">
+            <LinkBtn href="https://github.com/aasim-syed/Repro" variant="secondary">
               Demo instructions
             </LinkBtn>
           </div>
@@ -286,6 +329,7 @@ agentreplay runs list --db agentreplay.db`}</CodeBlock>
         </div>
       </section>
 
+</motion.section>
       {/* footer */}
       <footer className="mx-auto w-full max-w-6xl px-6 py-10 text-sm text-white/60">
         <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">

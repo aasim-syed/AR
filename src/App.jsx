@@ -90,7 +90,7 @@ export default function App() {
               <span className="font-mono text-sm">AR</span>
             </div>
             <div className="leading-tight">
-              <div className="text-sm font-semibold">AgentReplay</div>
+              <div className="text-sm font-semibold">AgentReplayx</div>
               <div className="text-xs text-white/60">Record • Replay • Diff</div>
             </div>
           </div>
@@ -136,7 +136,7 @@ export default function App() {
               </h1>
 
               <p className="mt-4 max-w-xl text-base leading-relaxed text-white/70">
-                AgentReplay records LLM + tool execution into a trace you can replay and diff.
+                AgentReplayx records LLM + tool execution into a trace you can replay and diff.
                 Turn “it worked yesterday” into a deterministic repro artifact you can share in PRs and CI.
               </p>
 
@@ -160,7 +160,7 @@ export default function App() {
             >
               <div className="text-sm font-semibold text-white">Quick taste</div>
               <div className="mt-3">
-                <CodeBlock>{`pip install agentreplay
+                <CodeBlock>{`pip install agentreplayx
 
 # record (in your code)
 with recorder.run("refund_flow"):
@@ -168,13 +168,13 @@ with recorder.run("refund_flow"):
   recorder.tool("http.get", input=..., output=...)
 
 # export a repro artifact
-agentreplay export <RUN_ID> -o bug.areplay
+agentreplayx export <RUN_ID> -o bug.areplay
 
 # import on another machine
-agentreplay import bug.areplay
+agentreplayx import bug.areplay
 
 # compare behavior
-agentreplay diff <RUN_A> <RUN_B>`}</CodeBlock>
+agentreplayx diff <RUN_A> <RUN_B>`}</CodeBlock>
               </div>
 
               <div className="mt-4 flex flex-wrap gap-2 text-xs text-white/60">
@@ -292,13 +292,15 @@ agentreplay diff <RUN_A> <RUN_B>`}</CodeBlock>
             <div className="grid gap-6 md:grid-cols-2">
               <div>
                 <CodeBlock>{`# dev
-pip install -e ".[dev]"
+pip install agentreplayx
 
 # run demo
 python examples/plain_python_agent.py
 
 # list runs
-agentreplay runs list --db agentreplay.db`}</CodeBlock>
+agentreplayx runs list --db agentreplay.db
+
+`}</CodeBlock>
               </div>
 
               <div className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur">
@@ -327,7 +329,7 @@ agentreplay runs list --db agentreplay.db`}</CodeBlock>
           <Section title="Roadmap" subtitle="Keep it small and sharp; ship primitives.">
             <div className="grid gap-4 md:grid-cols-3">
               <Card title="v0.2" desc="Export/import (.areplay), strict replay, CI, OSS hygiene." />
-              <Card title="v0.3" desc="Golden tests (agentreplay test), richer diff output, JSONL store." />
+              <Card title="v0.3" desc="Golden tests (agentreplayx test), richer diff output, JSONL store." />
               <Card title="v0.4" desc="LangGraph/LangChain adapters + OpenTelemetry bridge." />
             </div>
           </Section>
@@ -336,12 +338,12 @@ agentreplay runs list --db agentreplay.db`}</CodeBlock>
         {/* Footer */}
         <footer className="mx-auto w-full max-w-6xl px-6 py-10 text-sm text-white/60">
           <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-            <div>© {new Date().getFullYear()} AgentReplay • MIT</div>
+            <div>© {new Date().getFullYear()} AgentReplayx • MIT</div>
             <div className="flex gap-4">
               <a className="hover:text-white" href="https://github.com/aasim-syed/Repro" target="_blank" rel="noreferrer">
                 GitHub
               </a>
-              <a className="hover:text-white" href="#install">Install</a>
+              <a className="hover:text-white" href="https://pypi.org/project/agentreplayx">Install</a>
             </div>
           </div>
         </footer>
